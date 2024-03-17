@@ -68,7 +68,7 @@ ancient_poetry_prompt="""
 你是专业的插画师大师，我们需要希望将古诗转化为插图形式。
 首先请描述这首 中文诗中的所有意像物象组成的的画面，
 然后将其组成一幅详细描述的画面，最后将其整理为 简洁明快的英文绘画提示词prompt。 
-请根据一下内容：
+请根据以下内容：
 -请根据描述的季节
 -绘画技巧：画家需要具备绘画技巧，如素描、绘画技法、色彩运用等。
 -文学知识：对古代文学和古诗的了解可以帮助艺术家更好地理解和表达古诗的意义和情感。
@@ -77,15 +77,54 @@ ancient_poetry_prompt="""
 
 古诗：{}
 
-请以json 格式输出
-```json
-%
-  "title": ""               --标题
-  "description": "",        --中文画面描述
-  "prompt":""               --提示词：英文画面描述
-%
-```
+Artistic Instructions:
+
+Prompt (in English):
 
 """
 
 
+art_poetry_prompt="""
+你是专业的场景构建，我们需要希望提取文本内容中的画面景色，用来更好的展示文本内容。
+请抽取这首诗词中描绘的所有画面，详细描述这个场景的画面内容，尽量详细，包含背景，景物，颜色，比例，镜头位置，画风等：
+-涉及人物的 需要详细描述人物动作，神态
+-涉及景色的 需要详细描述景色内容
+-诗词为中国诗词，请描绘符合中国文化的内容：
+-请输出合理且描述非常详细的画面，一个一个的描述画面中可能的元素：
+-当画面表达的为一种情感的时候 请连续合适的场景来展示相应的情感内容：
+-请按照 画面一、： 画面二、： 画面三、： ... 这样的格式输出
+
+古诗：{}
+
+
+"""
+
+
+
+art_translate_prompt="""
+我们需要使用文本描述作画，下面我会给你一段中文描述，请你根据内容将其翻译成合适的英文，请注意：
+#1.请只输出英文提示词
+#2.输出内容是关于一副画面的，将其修改为适合文生图的提示词
+#3.如果涉及人物请添加 高质量的五官，清晰的五官，高质量的画面，这类类似的描述
+
+<example>
+illustrator, anime , realistic ,sketch , 1girl, ,lip, Sweater,order, Blue gradient background, Neon hair,Textured crop, Canadian, (masterpiece,best quality)
+
+(masterpiece, top quality, best quality, official art, beautiful and aesthetic:1.2), (1girl:1.4), extreme detailed,(joshua middleton comic cover art:1.1), (Action painting:1.2),(concretism:1.2),theater dance scene,(hypermaximalistic:1.5),colorful,highest detailed
+
+(Glowing ambiance, enchanting radiance, luminous lighting, ethereal atmosphere, mesmerizing glow, evocative hues, captivating coloration, dramatic lighting, enchanting aura),((nude:1)),(boobs naked:0.55),  ink painting, ((moon:1)),  (masterpiece, top quality, best quality, official art, beautiful and aesthetic:1.2), (1girl:1.4), extreme detailed,(joshua middleton comic cover art:1.1), (Action painting:1.2),(concretism:1.2),theater dance scene,(hypermaximalistic:1.5),colorful,highest detailed,
+
+dramatic angle,(fluttered detailed color splashs), (illustration),(((1 girl))),(long hair),(rain:0.9),(hair ornament:1.4),there is an ancient palace beside the girl,chinese clothes,(focus on), color Ink wash painting,(color splashing),colorful splashing,(((colorful))),(sketch:0.8), Masterpiece,best quality, beautifully painted,highly detailed,(denoising:0.6),[splash ink],((ink refraction)), (beautiful detailed sky),moon,highly,detaild,(masterpiece, best quality, extremely detailed CG unity 8k wallpaper,masterpiece, best quality, ultra-detailed),(Lycoris radiata)
+
+masterpiece, best quality, highly detailed, sharp focus, dynamic lighting, vivid colors, texture detail, particle effects, storytelling elements, narrative flair, 16k, HDR, subject-background isolation, 2D, (Authentic skin texture:1.3), traditional chinese ink painting,
+1 perfect face girl  BREAK 1 handsome face boy , the boy have a long hair, they all are weared (white:1.2) chinese traditional (transparent:1.2)_clothing, they all closed eyes, the boy was stand up at  same height level side of  the girl, the boy's hand is holding the (girl's big chest:1.3), (the boy is (kissing:1.8) the girl:1.7), Stick out tongue, Drooling, (they are looked at each other:1.4), background is sea,
+
+Cinematic Lighting, masterpiece, best quality, highly detailed, sharp focus, dynamic lighting, vivid colors, texture detail, particle effects, storytelling elements, narrative flair, 16k, HDR, subject-background isolation, 2D, (Authentic skin texture:1.3), traditional chinese ink painting,
+1 girl, perfect face, perfect hand, Hands clasped together, white chinese traditional (transparent:1.4) clothing, Looking up at the sky, background is snow, Snowflakes fall,
+
+</example>
+ 
+内容：{}
+
+
+"""

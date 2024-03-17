@@ -5,9 +5,9 @@ from langchain_core.output_parsers.json import parse_partial_json, parse_json_ma
 from openai import OpenAI
 
 from config import LLM_OPENAI_API_KEY, LLM_OPENAI_API_BASE, LLM_MODEL
-from prompt import ancient_poetry_prompt
+from prompt import ancient_poetry_prompt, art_poetry_prompt, art_translate_prompt
 import retrying
-
+import re
 
 def send_chat_request(user_content):
     client = OpenAI(base_url=LLM_OPENAI_API_BASE, api_key=LLM_OPENAI_API_KEY)
@@ -22,13 +22,13 @@ def send_chat_request(user_content):
     return completion.choices[0].message.content
 # Example: reuse your existing OpenAI setup
 @retrying.retry(wait_fixed=1000, stop_max_attempt_number=3)
-def get_local_llm(user_input):
+def get_local_llm(user_input,prompt):
     global completion
-    client = OpenAI(base_url="http://localhost:1234/v1", api_key="not-needed")
+    client = OpenAI(base_url="http://localhost:5000/v1", api_key="not-needed")
     completion = client.chat.completions.create(
         model="local-model",  # this field is currently unused
         messages=[
-            {"role": "user", "content": ancient_poetry_prompt.format(user_input)}
+            {"role": "user", "content": prompt.format(user_input)}
         ],
         temperature=0.7,
     )
@@ -36,15 +36,30 @@ def get_local_llm(user_input):
 
 @retrying.retry(wait_fixed=1000, stop_max_attempt_number=3)
 def get_result_json(user_input):
-    result_json={}
-    # result=get_local_llm(user_input)
-    # result_json= parse_json_markdown(json_string=result)
-    # print(result_json['title'])
-    # print(result_json['description'])
-    # print(result_json['prompt'])
-    result_json['merged_content']=user_input
+    result_list=[]
+    result_ch_list = []
+    try:
+        result = get_local_llm(user_input,art_poetry_prompt)
+        print(result)
+        scenes = result.split('\n\n画面')
 
-    return result_json
+        for match in scenes:
+            try:
+                print(match)
+                tr_txt = get_local_llm(match, art_translate_prompt)
+                print(tr_txt)
+                cleaned_text = re.sub(r'\d+\.', '', tr_txt)
+                cleaned_text= cleaned_text.replace('#','')
+                print(cleaned_text.strip())
+                result_ch_list.append(match)
+                result_list.append(cleaned_text)
+            except Exception as e:
+                print(f"翻译错误了: {e}")
+
+    except Exception as e:
+        print(f"解析画面错误了: {e}")
+
+    return result_list,result_ch_list
 
 
 
@@ -54,13 +69,19 @@ def get_result_json(user_input):
 
 
 if __name__ == '__main__':
-    user_content = "Introduce yourself."
+    user_content = """
+     "人生若只如初见，何事秋风悲画扇",
+      "等闲变却故人心，却道故心人易变",
+      "骊山语罢清宵半，泪雨霖铃终不怨",
+      "何如薄幸锦衣郎，比翼连枝当日愿"
+    """
     try:
-        result = get_result_json("孤鸿海上来")
+        result_list ,result_ch_list   = get_result_json(user_content)
     except Exception as e:
         print(f"An error occurred: {e}")
         raise
-    print(result)
+    print(result_list)
+    print(result_ch_list)
 
     # completion = send_chat_request(user_content)
     # print("Response:"+completion)

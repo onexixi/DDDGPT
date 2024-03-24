@@ -42,11 +42,15 @@ def get_result_json(user_input):
         result = get_local_llm(user_input,art_poetry_prompt)
         print(result)
         scenes = result.split('\n\n画面')
-
+        match_add_txt=''
         for match in scenes:
             try:
                 print(match)
-                tr_txt = get_local_llm(match, art_translate_prompt)
+                tr_txt=''
+                match_add_txt=match_add_txt+match
+                while len(tr_txt)==0 :
+                    tr_txt = get_local_llm(match_add_txt, art_translate_prompt)
+                    print('++循环++')
                 print(tr_txt)
                 cleaned_text = re.sub(r'\d+\.', '', tr_txt)
                 cleaned_text= cleaned_text.replace('#','')
@@ -55,7 +59,9 @@ def get_result_json(user_input):
                 result_list.append(cleaned_text)
             except Exception as e:
                 print(f"翻译错误了: {e}")
-
+        tr_txt = get_local_llm(str(result), art_translate_prompt)
+        result_ch_list.append(tr_txt)
+        result_list.append(str(result))
     except Exception as e:
         print(f"解析画面错误了: {e}")
 

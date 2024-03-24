@@ -1,6 +1,6 @@
 from llm import get_local_llm, get_result_json
 
-shijing_path="E:\\workspace\\chinese-poetry\\纳兰性德\\纳兰性德诗集.json"
+shijing_path="E:\\workspace\\chinese-poetry\\宋词\\ci.song.1000.json"
 
 import json
 
@@ -11,16 +11,16 @@ with open(shijing_path, 'r',encoding='utf-8') as f:
 output = []
 # 打印内容
 for item in data:
-    print('标题:', item['title'])
+    print('标题:', item['rhythmic'])
     print('作者:', item['author'])
-    print('内容:', item['para'])
+    print('内容:', item['paragraphs'])
     item_dict = {}
-    item_dict['title'] = item['title']
-    item_dict['content'] = item['para']
+    item_dict['title'] = item['rhythmic']
+    item_dict['content'] = item['paragraphs']
     prompt_content = []
     prompt_ch_content = []
     try:
-        merged_content = item['title'] +'\n'+  '\n'.join(item_dict['content'])
+        merged_content = item_dict['title'] +'\n'+  '\n'.join(item_dict['content'])
         print('merged_content:', merged_content)
         result,ch_result =  get_result_json(merged_content)
         if len(result) == 0:
@@ -36,6 +36,6 @@ for item in data:
     output.append(item_dict)
     print()
 
-with open('纳兰性德-v2.json', 'w',encoding='utf-8') as f:
+with open('DATA/ci.song.1000-v1.json', 'w', encoding='utf-8') as f:
     json.dump(output, f, indent=4, ensure_ascii=False)
     f.close()

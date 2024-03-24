@@ -1,14 +1,13 @@
-CH_TO_EN="""#请将下列文本翻译为英文：
+CH_TO_EN = """#请将下列文本翻译为英文：
 {}
 """
 
-EXTRACT_ENTITIES="""#你是专业的编剧，请提取文本中的画面，并且修改成SD绘画所需的提示词，中间用;隔开：
+EXTRACT_ENTITIES = """#你是专业的编剧，请提取文本中的画面，并且修改成SD绘画所需的提示词，中间用;隔开：
 -请使用
 {}
 """
 
-
-sd_prompt="""
+sd_prompt = """
 从现在开始你将扮演一个stable diffusion的提示词工程师，你的任务是帮助我设计stable diffusion的文生图提示词。你需要按照如下流程完成工作。
 1、我将给你发送一段图片情景，你需要将这段图片情景更加丰富和具象生成一段图片描述。并且按照“【图片内容】具像化的图片描述”格式输出出来；
 2、你需要结合stable diffusion的提示词规则，将你输出的图片描述翻译为英语，并且加入诸如高清图片、高质量图片等描述词来生成标准的提示词，提示词为英语，以“【正向提示】提示词”格式输出出来；
@@ -21,7 +20,7 @@ sd_prompt="""
 输入：{}
 """
 
-red_describe_prompt="""
+red_describe_prompt = """
 你是专业的小红书文案专家，请根据下属图片的描述生一段美好的小故事，可以参考的元素幸福，积极，可爱，引人注意，充满希望，情感，专注,正能量、诙谐幽默
 -不超过30字
 -请使用表情
@@ -32,15 +31,14 @@ red_describe_prompt="""
 描述：{}
 """
 
-red_tag_prompt="""
+red_tag_prompt = """
 请翻译以下内容为连贯的中文：
 翻译后的内容将用来命名文件
 
 用户内容：{}
 """
 
-
-red_title_prompt="""
+red_title_prompt = """
 你是一个优秀的小红书内容创作者，现在你想根据一组元数据进行创作，规避所有敏感词汇
 先对元数据进行初步预处理，去除重复的词汇，去除所有字符，然后仅选第一组元数据按照以下要求和所示例的内容进行输出
 要求：
@@ -63,8 +61,7 @@ red_title_prompt="""
 标签：{}
 """
 
-
-ancient_poetry_prompt="""
+ancient_poetry_prompt = """
 你是专业的插画师大师，我们需要希望将古诗转化为插图形式。
 首先请描述这首 中文诗中的所有意像物象组成的的画面，
 然后将其组成一幅详细描述的画面，最后将其整理为 简洁明快的英文绘画提示词prompt。 
@@ -83,29 +80,28 @@ Prompt (in English):
 
 """
 
-
-art_poetry_prompt="""
+art_poetry_prompt = """
 你是专业的场景构建，我们需要希望提取文本内容中的画面景色，用来更好的展示文本内容。
 请抽取这首诗词中描绘的所有画面，详细描述这个场景的画面内容，尽量详细，包含背景，景物，颜色，比例，镜头位置，画风等：
 -涉及人物的 需要详细描述人物动作，神态
 -涉及景色的 需要详细描述景色内容
 -诗词为中国诗词，请描绘符合中国文化的内容：
--请输出合理且描述非常详细的画面，一个一个的描述画面中可能的元素：
+-请输出合理且描述非常详细的画面，描述画面中可能的元素：
 -当画面表达的为一种情感的时候 请连续合适的场景来展示相应的情感内容：
 -请按照 画面一、： 画面二、： 画面三、： ... 这样的格式输出
+-画面直接要尽可能的相互关联，展示联系，画面元素要齐全
 
 古诗：{}
 
 
 """
 
-
-
-art_translate_prompt="""
-我们需要使用文本描述作画，下面我会给你一段中文描述，请你根据内容将其翻译成合适的英文，请注意：
+art_translate_prompt = """
+我们需要使用文本描述作画，下面我会给你一段中文描述，请你根据最后一段内容结合前面的内容，将最后的画面描述翻译成合适的英文提示词，请注意：
 #1.请只输出英文提示词
 #2.输出内容是关于一副画面的，将其修改为适合文生图的提示词
 #3.如果涉及人物请添加 高质量的五官，清晰的五官，高质量的画面，这类类似的描述
+#4.请尽可能的简洁清晰的描绘画面
 
 <example>
 illustrator, anime , realistic ,sketch , 1girl, ,lip, Sweater,order, Blue gradient background, Neon hair,Textured crop, Canadian, (masterpiece,best quality)
@@ -123,7 +119,7 @@ Cinematic Lighting, masterpiece, best quality, highly detailed, sharp focus, dyn
 1 girl, perfect face, perfect hand, Hands clasped together, white chinese traditional (transparent:1.4) clothing, Looking up at the sky, background is snow, Snowflakes fall,
 
 </example>
- 
+
 内容：{}
 
 

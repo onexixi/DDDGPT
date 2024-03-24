@@ -6,8 +6,31 @@ import shutil
 import os
 import time
 
+import retrying
 from gradio_client import Client
 import re
+import requests
+
+proxypool_url = 'http://8.140.254.36:5555/random'
+
+import socks
+import socket
+
+@retrying.retry(wait_fixed=1000, stop_max_attempt_number=3)
+def up_global_proxy():
+    """
+    开启全局代理
+    :return:
+    """
+    proxy = get_random_proxy()
+    print(proxy)
+
+    os.environ["http_proxy"] = 'http://' + proxy
+    os.environ["https_proxy"] = 'http://' + proxy
+
+    print(f"全局代理设置成功，当前代理为:{proxy}")
+
+
 
 negative_prompt = "(worst quality, low quality,illustration, 3d, 2d, painting, cartoons, sketch),nsfw,bad quality,bad anatomy,worst quality,low quality,low resolution,extra fingers,blur,blurry,ugly,wrong proportions,watermark,image artifacts,lowres,ugly,jpeg artifacts,deformed,noisy image,deformation,skin moles,",
 save_folder = "H:\\AI\\纳兰-v3\\"
@@ -16,7 +39,12 @@ retry_interval = 10  # 重试间隔时间（秒）
 
 exec_patch = 3  # 执行次数
 
-
+def get_random_proxy():
+    """
+    get random proxy from proxypool
+    :return: proxy
+    """
+    return requests.get(proxypool_url).text.strip()
 def get_win_name(filename):
     filename = re.sub(r'[\\/:*?"<>|]', '', filename)
     return filename
@@ -43,10 +71,10 @@ def get_client_result(client, prompt,name):
     target_folder =os.path.join(target_folder, name+".png")
     shutil.copy(result, target_folder)
 
-
-def get_pic_url(client, prompt,name):
+def get_pic_url(url, prompt,name):
     result = ""
 
+    client = Client(url)
     # 使用 while 循环来实现重试
     retries = 0
     while retries < max_retries:
@@ -59,6 +87,7 @@ def get_pic_url(client, prompt,name):
             client = Client(url)
             print(f"执行出错，正在进行第 {retries} 次重试...异常{e}...")
             time.sleep(retry_interval)
+
     else:
         print("重试次数已达上限，程序退出。")
         print("---生成图片异常")
@@ -74,13 +103,13 @@ if __name__ == '__main__':
     ]
     out_path = "H:\\AI\\纳兰2\\"
     # 打开JSON文件并加载数据
-    with open('纳兰性德-v2.json', 'r', encoding='utf-8') as f:
+    with open('DATA/纳兰性德-v2.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
 
 
     # # 循环遍历每个item
     prompt_list = []
-    for index,item in enumerate(data[127:200]):
+    for index,item in enumerate(data[170:200]):
         for index_n,content_item in enumerate(item['prompt_content']):
             prompt={}
             print(content_item)
@@ -97,11 +126,15 @@ if __name__ == '__main__':
     prompt_list *= exec_patch
     print(prompt_list)
     #
+    # for item in prompt_list:
+    #     url = random.choice(clients)
+    #     up_global_proxy()
+    #     get_pic_url(url, str(item['input_txt']),str(item['name']))
+
     with concurrent.futures.ThreadPoolExecutor() as executor:
         url = random.choice(clients)
-        client = Client(url)
         # submit tasks to executor
-        futures = [executor.submit(get_pic_url, client, str(item['input_txt']),str(item['name'])) for item in prompt_list]
+        futures = [executor.submit(get_pic_url, url, str(item['input_txt']),str(item['name'])) for item in prompt_list]
         # get results as they become available
         results = [future.result() for future in concurrent.futures.as_completed(futures)]
 

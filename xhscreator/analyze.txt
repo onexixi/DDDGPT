@@ -1,0 +1,67 @@
+需求-可交付的产品
+
+1 需求分析讨论
+参与人: 业务专家 项目经理 技术经理 前端开发工程师 后端开发工程师  测试 普通用户（低权限用户） 管理员用户 DB专家
+1.1 需要细化需求
+1.2 需要讨论实现的难异程度
+1.3 具体实现的技术方案 （考虑并发大小，是否对接第三方系统，特殊需求， ）
+1.3.1 选择什么语言实现Java/Python/Go/C++/C/Rust
+1.3.2 使用 SpringBoot 什么框架实现
+1.3.3 使用什么进行依赖管理 Maven Gradle
+1.3.4 持久层框架  mybatis
+1.3.5 日志
+1.3.6 异常处理框架
+1.3.7 缓存技术：Redis, Memcache，EhCache
+1.3.8 设计模式 \输出建议
+1.3.9 系统间通信  mq http \http
+1.3.10 任务调度 \xxjob
+1.3.11 数据库选型 mysql MongoDB hbase hive
+1.3.12 部署方式 \容器 Dockerfile
+
+
+2 领域建模
+参与人：业务专家 项目经理 技术经理 前端开发工程师 后端开发工程师
+2.1 用户地图
+2.2 统一语言
+2.3 划分业务模块
+2.4 落地至关系数据库 （DB专家）
+
+3 项目初始化
+参与人：技术经理 前端开发工程师 后端开发工程师
+3.1 使用Java语言实现
+3.2 输出建表语句 输出项目名称
+3.3 输出项目目录 选择三层架构还是四层架构
+3.4 基础输出 生成文件 使用PO DTO contoller dao mapper.xml application.yml
+3.5 输出接口文档 项目的技术架构图
+3.6 生成单元测试
+3.7 持续细化丰富
+
+
+项目管理
+
+配置文件
+使用application.properties或application.yml文件
+
+
+编写代码
+测试
+自测
+自动化debug
+单元测试
+运行和调试
+部署
+dockerfile
+
+
+--- 输出文件目录
+--- 输出文件
+
+
+Project Metadata
+Group：com.example
+Artifact：demo
+Name：demo
+Description：Demo project for Spring Boot
+Package name：com.example.demo
+Packaging Jar War
+Java 20 17 11 8

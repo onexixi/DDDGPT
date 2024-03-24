@@ -33,7 +33,7 @@ if __name__ == '__main__':
     import json
 
     # 打开JSON文件并加载数据
-    with open('shijing-output.json', 'r', encoding='utf-8') as f:
+    with open('DATA/shijing-output.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
 
     # 循环遍历每个item

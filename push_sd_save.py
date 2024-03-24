@@ -54,9 +54,9 @@ if __name__ == '__main__':
 
     out_path = "H:\\AI\\诗经\\"
     # 打开JSON文件并加载数据
-    with open('shijing-output.json', 'r', encoding='utf-8') as f:
+    with open('DATA/shijing-output.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
-    with open('shijing-output2.json', 'r', encoding='utf-8') as f:
+    with open('DATA/shijing-output2.json', 'r', encoding='utf-8') as f:
         data2 = json.load(f)
 
     # 循环遍历每个item

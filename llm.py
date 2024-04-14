@@ -5,7 +5,7 @@ from langchain_core.output_parsers.json import parse_partial_json, parse_json_ma
 from openai import OpenAI
 
 from config import LLM_OPENAI_API_KEY, LLM_OPENAI_API_BASE, LLM_MODEL
-from prompt import ancient_poetry_prompt, art_poetry_prompt, art_translate_prompt
+from prompt import art_poetry_prompt, art_translate_prompt
 import retrying
 import re
 

@@ -103,7 +103,7 @@ if __name__ == '__main__':
     ]
     out_path = "H:\\AI\\纳兰2\\"
     # 打开JSON文件并加载数据
-    with open('DATA/纳兰性德-v2.json', 'r', encoding='utf-8') as f:
+    with open('../DATA/纳兰性德-v2.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
 
 

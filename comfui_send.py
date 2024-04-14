@@ -11,7 +11,7 @@ import uuid
 import websocket  # NOTE: websocket-client (https://github.com/websocket-client/websocket-client)
 from PIL import Image
 
-from push_sd_save import get_win_name
+from poetry.push_sd_save import get_win_name
 
 server_address = "127.0.0.1:8188"
 client_id = str(uuid.uuid4())
@@ -194,13 +194,13 @@ if __name__ == '__main__':
     ws = websocket.WebSocket()
     ws.connect("ws://{}/ws?clientId={}".format(server_address, client_id))
 
-    out_path = "H:\\AI\\纳兰2\\"
+    out_path = "H:\\AI\\合集\\清明\\"
     # 打开JSON文件并加载数据
-    with open('DATA/纳兰性德-v2.json', 'r', encoding='utf-8') as f:
+    with open('./DATA/清明v1-ch.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
 
     # # 循环遍历每个item
-    for index, item in enumerate(data[190:]):
+    for index, item in enumerate(data):
         for index_n, content_item in enumerate(item['prompt_content']):
             print(content_item)
             input_txt = content_item

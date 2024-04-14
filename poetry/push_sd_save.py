@@ -1,7 +1,6 @@
 import random
 
 import requests
-import os
 
 url = 'https://localhost:7860/sdapi/v1/txt2img'
 
@@ -53,29 +52,25 @@ def do_save_result(response, name):
 
 if __name__ == '__main__':
 
-    out_path = "H:\\AI\\纳兰\\"
+    out_path = "H:\\AI\\诗经\\"
     # 打开JSON文件并加载数据
-    with open('DATA/纳兰性德-v2.json', 'r', encoding='utf-8') as f:
+    with open('../DATA/shijing-output.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
+    with open('../DATA/shijing-output2.json', 'r', encoding='utf-8') as f:
+        data2 = json.load(f)
 
-
-    # 循环遍历每个item[127:200
-    for index,item in enumerate(data[127:]):
+    # 循环遍历每个item
+    for index,item in enumerate(data):
         # 访问"content"列表中的每个元素，并打印出其"prompt"属性的值
-
-        for index_n,content_item in enumerate(item['prompt_content']):
-            print(content_item)
-            prompt = content_item
+        meg_item=data2[index]
+        for index_n,content_item in enumerate(item['content']):
+            print(content_item['prompt'])
+            prompt = content_item['prompt']
             rand_num = random.randint(100000, 999999)
-            name= item['prompt_ch_content'][index_n]+"-"+str(rand_num)
+            name=meg_item['content'][index_n]['merged_content']+"-"+str(rand_num)
             name=str(name).strip().replace('\n','-')
             name = name.replace(' ', '')
             response = requests.post(url, json=get_ask_body(str(prompt)), headers=headers, verify=False)
             name = get_win_name(name)
-            target_folder = out_path + get_win_name(str(name).split('-')[0])
-            if not os.path.exists(target_folder):
-                os.mkdir(target_folder)
-            target_folder = os.path.join(target_folder, name)
-            name=target_folder+name
-            print(name)
+            name=out_path+name
             do_save_result(response, name)

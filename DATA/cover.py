@@ -21,5 +21,5 @@ def dump_json_file(file_path, data):
         return True
 
 if __name__ == '__main__':
-    data=read_json_file('DATA/shijing-prompt-v2.json')
-    dump_json_file('DATA/shijing-prompt-v2-ch.json', data)
+    data=read_json_file('shijing-prompt-v2.json')
+    dump_json_file('shijing-prompt-v2-ch.json', data)

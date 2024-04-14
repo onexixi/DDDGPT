@@ -14,7 +14,7 @@ def send_chat_request(user_content):
     completion = client.chat.completions.create(
         model=LLM_MODEL,  # this field is currently unused
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": ""},
             {"role": "user", "content": user_content}
         ],
         temperature=1,
@@ -23,10 +23,9 @@ def send_chat_request(user_content):
 # Example: reuse your existing OpenAI setup
 @retrying.retry(wait_fixed=1000, stop_max_attempt_number=3)
 def get_local_llm(user_input,prompt):
-    global completion
     client = OpenAI(base_url="http://localhost:5000/v1", api_key="not-needed")
     completion = client.chat.completions.create(
-        model="local-model",  # this field is currently unused
+        model="Qwen/Qwen1.5-14B-Chat-GGUF/qwen1_5-14b-chat-q4_k_m.gguf",  # this field is currently unused
         messages=[
             {"role": "user", "content": prompt.format(user_input)}
         ],
@@ -60,8 +59,8 @@ def get_result_json(user_input):
             except Exception as e:
                 print(f"翻译错误了: {e}")
         tr_txt = get_local_llm(str(result), art_translate_prompt)
-        result_ch_list.append(tr_txt)
-        result_list.append(str(result))
+        result_ch_list.append(result)
+        result_list.append(str(tr_txt))
     except Exception as e:
         print(f"解析画面错误了: {e}")
 

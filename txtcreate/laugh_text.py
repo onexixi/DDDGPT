@@ -40,12 +40,12 @@ if __name__ == '__main__':
     results_list = []
 
     # 循环遍历activities_list 3次
-    for i in range(1):
+    for i in range(2):
         for activity in activities_list:
             result = get_local_llm(activity, laught_add)
             print(result)
             results_list.append(result)
 
     # 将结果列表保存为JSON文件
-    with open('results.json', 'w', encoding='utf-8') as json_file:
+    with open('results6.json', 'w', encoding='utf-8') as json_file:
         json.dump(results_list, json_file, ensure_ascii=False, indent=4)

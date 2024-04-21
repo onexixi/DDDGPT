@@ -34,6 +34,19 @@ def get_local_llm(user_input,prompt):
     return completion.choices[0].message.content
 
 @retrying.retry(wait_fixed=1000, stop_max_attempt_number=3)
+def get_local_llm_result(prompt):
+    client = OpenAI(base_url="http://localhost:5000/v1", api_key="not-needed")
+    completion = client.chat.completions.create(
+        model="Meta/Llama-3-8B",  # this field is currently unused
+        messages=[
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.1,
+    )
+    return completion.choices[0].message.content
+
+
+@retrying.retry(wait_fixed=1000, stop_max_attempt_number=3)
 def get_result_json(user_input):
     result_list=[]
     result_ch_list = []

@@ -47,5 +47,5 @@ if __name__ == '__main__':
             results_list.append(result)
 
     # 将结果列表保存为JSON文件
-    with open('results6.json', 'w', encoding='utf-8') as json_file:
+    with open('中华成语典故大全/初版/results6.json', 'w', encoding='utf-8') as json_file:
         json.dump(results_list, json_file, ensure_ascii=False, indent=4)
